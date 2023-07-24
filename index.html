@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>суши-чка</title>
+    <link rel="stylesheet" href="css/sushumag.css">
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="overlay">
+        <div class="block-logo">
+            <div class="logo-orig">
+                <img src="https://sun9-17.userapi.com/impg/G16JgoAVRmo8jBsZSbQ0l1JNoPmHC9KXR4ofMA/e-loV0AixJs.jpg?size=2560x2560&quality=95&sign=f131b1a4843e4e08159422066a17d0b2&type=album" alt="">
+            </div>
+            <div id="logo-bw">
+                <img src="https://sun9-17.userapi.com/impg/G16JgoAVRmo8jBsZSbQ0l1JNoPmHC9KXR4ofMA/e-loV0AixJs.jpg?size=2560x2560&quality=95&sign=f131b1a4843e4e08159422066a17d0b2&type=album" alt="">
+            </div>
+        </div>
+        <div id="progstat"></div>
+        <div id="progress"></div>
+    </div>
+    <div id="category">
+
+    </div>
+    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="js/webapp.js"></script>
+    <script>
+        ;(function(){
+          function id(v){ return document.getElementById(v); }
+          function loadbar() {
+            var ovrl = id("overlay"),
+                prog = id("progress"),
+                stat = id("progstat"),
+                img = document.images,
+                logo = id("logo-bw"),
+                c = 0,
+                tot = img.length;
+            if(tot == 0) return doneLoading();
+
+            function imgLoaded(){
+              c += 1;
+              var perc = ((100/tot*c) << 0) +"%";
+              prog.style.width = perc;
+              stat.innerHTML = perc;
+              let opacity=(100-perc.slice(0,-1))*0.01
+              logo.style.opacity=opacity;
+              console.log(perc);
+              if(c===tot) return doneLoading();
+            }
+            function doneLoading(){
+              ovrl.style.opacity = 0;
+              setTimeout(function(){ 
+                ovrl.style.display = "none";
+              }, 1200);
+            }
+            for(var i=0; i<tot; i++) {
+              var tImg     = new Image();
+              tImg.onload  = imgLoaded;
+              tImg.onerror = imgLoaded;
+              tImg.src     = img[i].src;
+            }    
+          }
+          document.addEventListener('DOMContentLoaded', loadbar, false);
+        }());
+var ele;
+        $.get('http://localhost/catalog.php',function (e) {
+            let html='';
+            ele=JSON.parse(e);
+            JSON.parse(e).items.forEach(el => {
+                html+='<div class="ta-c" data-item="'+el.name+'" data-id="'+el.id+'"><img class="category-img" src="http://localhost/'+el.img+'"></div>';
+            });
+            $('#category').html(html);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+var tg = window.Telegram.WebApp;
