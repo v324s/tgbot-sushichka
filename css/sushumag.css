@@ -1,3 +1,7 @@
+
+body{
+    overflow-x: hidden;
+}
 #overlay {
     position: fixed;
     z-index: 99999;
@@ -54,10 +58,14 @@
 }
 .category-img{
     border-radius: 25px;
+    width: 100%;
 }
 #category{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-content: flex-end;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
 }
